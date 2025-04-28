@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navras - Women's Wellness Platform</title>
+  <style>
+    :root {
+      --primary: #ff6b6b;
+      --secondary: #4ecdc4;
+      --dark: #232946;
+      --light: #fffffe;
+      --accent: #f9c80e;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #faf8ff;
+      color: var(--dark);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+     
+    }
+    
+    /* Header */
+    header {
+      background-color: var(--light);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .logo span {
+      color: var(--secondary);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .cta-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .cta-button:hover {
+      background-color: #ff5252;
+    }
+    
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      padding: 80px 0;
+      gap: 40px;
+    }
+    
+    .hero-content {
+      flex: 1;
+    }
+    
+    .hero-image {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 44px;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+    
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      color: #666;
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+      background-color: #f5f5f7;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+      font-size: 36px;
+      color: var(--dark);
+      margin-bottom: 15px;
+    }
+    
+    .section-title p {
+      font-size: 18px;
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .feature-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      flex: 1;
+      min-width: 250px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+    
+    .feature-card p {
+      color: #666;
+      line-height: 1.6;
+    }
+    
+    /* How It Works */
+    .how-it-works {
+      padding: 80px 0;
+    }
+    
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 50px;
+    }
+    
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+      min-width: 250px;
+      padding: 20px;
+    }
+    
+    .step-number {
+      background-color: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .step h3 {
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+    
+    .step p {
+      color: #666;
+      line-height: 1.6;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      background-color: #f5f5f7;
+      padding: 80px 0;
+    }
+    
+    .testimonial-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    
+    .testimonial-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ddd;
+    }
+    
+    .author-info h4 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    
+    .author-info p {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    /* Download Section */
+    .download {
+      padding: 80px 0;
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary) 0%, #ff9a9e 100%);
+      color: white;
+    }
+    
+    .download h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    
+    .download p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .download-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    
+    .download-button {
+      background-color: white;
+      color: var(--primary);
+      padding: 15px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.3s;
+    }
+    
+    .download-button:hover {
+      transform: translateY(-5px);
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 50px 0 20px;
+    }
+    
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-column {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .footer-column h3 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: var(--secondary);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-column ul li a:hover {
+      color: white;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #444;
+      color: #ccc;
+      font-size: 14px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .feature-cards {
+        flex-direction: column;
+      }
+      
+      .steps {
+        flex-direction: column;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">Navras<span>.</span></div>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#download">Download</a>
+        </div>
+        <button class="cta-button">Get Started</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Your Personal Wellness Companion</h1>
+        <p>Navras empowers women with an all-in-one platform for period tracking, fitness guidance, nutrition planning, stress management, and emergency support.</p>
+        <button class="cta-button">Download App</button>
+      </div>
+      <div class="hero-image">
+        <img src="" alt="Navras App Interface" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Comprehensive Features</h2>
+        <p>Navras brings together essential tools for holistic women's wellness in one seamless platform.</p>
+      </div>
+      <div class="feature-cards">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Period Tracking</h3>
+          <p>Track your cycle with precision using AI-powered predictions. Get insights about your patterns and receive timely reminders.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💪</div>
+          <h3>Fitness Guidance</h3>
+          <p>Personalized workout plans tailored to your cycle phase, fitness level, and goals. Includes video tutorials and progress tracking.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🥗</div>
+          <h3>Nutrition Planning</h3>
+          <p>Get meal recommendations and nutritional advice based on your health needs, cycle phase, and dietary preferences.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧘‍♀️</div>
+          <h3>Stress Management</h3>
+          <p>Access guided meditations, breathing exercises, and mood tracking tools to help manage stress and emotional wellbeing.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🚨</div>
+          <h3>Emergency Support</h3>
+          <p>Quick access to emergency contacts and resources for immediate assistance when you need it most.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Privacy First</h3>
+          <p>Your data is encrypted and never shared. We prioritize your privacy and give you complete control over your information.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="how-it-works">
+    <div class="container">
+      <div class="section-title">
+        <h2>How Navras Works</h2>
+        <p>Getting started is easy and takes just a few minutes</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Download the App</h3>
+          <p>Available on iOS and Android platforms for free.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Create Your Profile</h3>
+          <p>Tell us about yourself so we can personalize your experience.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Set Your Goals</h3>
+          <p>Define what you want to achieve with Navras.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>Start Your Journey</h3>
+          <p>Access all features and begin your wellness journey.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+      <div class="section-title">
+        <h2>What Our Users Say</h2>
+        <p>Join thousands of women who have transformed their wellness journey with Navras</p>
+      </div>
+      <div class="testimonial-cards">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Navras has completely changed how I understand my body. The period tracking is incredibly accurate, and I love how the workout recommendations adjust based on my cycle phase."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+              <h4>Priya S.</h4>
+              <p>Using Navras for 8 months</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"The nutrition guidance has been a game-changer for me. I've noticed significant improvements in my energy levels and overall health since following the recommendations."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+              <h4>Meera J.</h4>
+              <p>Using Navras for 1 year</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"As someone who struggles with anxiety, the stress management tools in Navras have been invaluable. The guided meditations are perfect for my busy schedule."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+              <h4>Anika R.</h4>
+              <p>Using Navras for 6 months</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section id="download" class="download">
+    <div class="container">
+      <h2>Start Your Wellness Journey Today</h2>
+      <p>Download Navras and take the first step towards a more balanced, healthy life. Available on all major platforms.</p>
+      <div class="download-buttons">
+        <a href="#" class="download-button">
+          📱 App Store
+        </a>
+        <a href="#" class="download-button">
+          🤖 Google Play
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Navras</h3>
+          <p>Empowering women through accessible wellness technology.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#download">Download</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Resources</h3>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Wellness Guide</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <ul>
+            <li><a href="mailto:info@navras.com">info@navras.com</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Navras. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</html>
