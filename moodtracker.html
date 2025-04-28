@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker & Wellness Companion</title>
+    <style>
+        :root {
+            --happy: #FFD166;
+            --calm: #118AB2;
+            --sad: #073B4C;
+            --angry: #EF476F;
+            --neutral: #06D6A0;
+            --anxious: #9D4EDD;
+            --primary: #073B4C;
+            --background: #f7f9fc;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--primary);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .mood-btn {
+            background-color: white;
+            border: 2px solid #e1e5ee;
+            border-radius: 12px;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .mood-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .mood-btn.selected {
+            border-width: 3px;
+            transform: scale(1.05);
+        }
+        
+        .mood-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .mood-label {
+            font-weight: 600;
+        }
+        
+        .intensity-slider {
+            width: 100%;
+            margin: 25px 0;
+        }
+        
+        .intensity-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        button.primary-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: block;
+            margin: 20px auto;
+        }
+        
+        button.primary-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .solutions-container {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .solution-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .solution-item:hover {
+            background-color: #f0f5ff;
+        }
+        
+        .solution-icon {
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .mood-history {
+            display: none;
+        }
+        
+        .history-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .history-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .streak-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .streak-count {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .streak-label {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .quote-container {
+            font-style: italic;
+            color: #555;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .quote-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        .quote-author {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 600px) {
+            .mood-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mood Tracker & Wellness Companion</h1>
+            <p class="subtitle">Track your mood, find solutions, and build healthy habits.</p>
+        </header>
+        
+        <div class="tab-container">
+            <div class="tab active" onclick="switchTab('track')">Track Mood</div>
+            <div class="tab" onclick="switchTab('history')">Mood History</div>
+            <div class="tab" onclick="switchTab('insights')">Insights</div>
+        </div>
+        
+        <div id="track-tab" class="tab-content active">
+            <div class="card">
+                <h2>How are you feeling today?</h2>
+                <div class="mood-grid" id="mood-buttons">
+                    <div class="mood-btn" data-mood="happy">
+                        <div class="mood-icon">😄</div>
+                        <div class="mood-label">Happy</div>
+                    </div>
+                    <div class="mood-btn" data-mood="calm">
+                        <div class="mood-icon">😌</div>
+                        <div class="mood-label">Calm</div>
+                    </div>
+                    <div class="mood-btn" data-mood="neutral">
+                        <div class="mood-icon">😐</div>
+                        <div class="mood-label">Neutral</div>
+                    </div>
+                    <div class="mood-btn" data-mood="sad">
+                        <div class="mood-icon">😔</div>
+                        <div class="mood-label">Sad</div>
+                    </div>
+                    <div class="mood-btn" data-mood="angry">
+                        <div class="mood-icon">😠</div>
+                        <div class="mood-label">Angry</div>
+                    </div>
+                    <div class="mood-btn" data-mood="anxious">
+                        <div class="mood-icon">😰</div>
+                        <div class="mood-label">Anxious</div>
+                    </div>
+                </div>
+                
+                <div class="intensity-container">
+                    <h3>How intense is this feeling?</h3>
+                    <input type="range" min="1" max="5" value="3" class="intensity-slider" id="intensity-slider">
+                    <div class="intensity-labels">
+                        <span>Very Mild</span>
+                        <span>Mild</span>
+                        <span>Moderate</span>
+                        <span>Strong</span>
+                        <span>Very Strong</span>
+                    </div>
+                </div>
+                
+                <div class="notes-container">
+                    <h3>Any notes about your day?</h3>
+                    <textarea id="mood-notes" placeholder="What influenced your mood today? (optional)" rows="3" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                </div>
+                
+                <button class="primary-btn" id="submit-button">Log My Mood</button>
+            </div>
+            
+            <div id="solutions-container" class="solutions-container card fade-in">
+                <h2>Solutions & Activities For You</h2>
+                <div id="solutions-list">
+                    <!-- Solutions will be populated here -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="history-tab" class="tab-content">
+            <div class="card">
+                <h2>Your Mood Journey</h2>
+                <div class="streak-container">
+                    <div class="streak-count" id="streak-count">0</div>
+                    <div class="streak-label">Day Streak</div>
+                </div>
+                
+                <div id="mood-history-list">
+                    <!-- History entries will be populated here -->
+                    <div class="empty-state" id="empty-history" style="text-align: center; padding: 30px;">
+                        <p>No mood entries yet. Start tracking to see your history!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="insights-tab" class="tab-content">
+            <div class="card">
+                <h2>Your Mood Patterns</h2>
+                <p>Track your mood daily to unlock personalized insights!</p>
+                
+                <div class="quote-container">
+                    <p class="quote-text">"Your emotions are the slaves to your thoughts, and you are the slave to your emotions."</p>
+                    <p class="quote-author">— Elizabeth Gilbert</p>
+                </div>
+                
+                <h3>Mood Distribution</h3>
+                <div id="mood-chart" style="height: 200px; background-color: #f5f5f5; border-radius: 8px; display: flex; justify-content: center; align-items: center;">
+                    <p>Track at least 7 days to see your mood patterns</p>
+                </div>
+                
+                <h3>Weekly Wellness Challenge</h3>
+                <div style="background-color: #f0f7ff; border-radius: 8px; padding: 15px; margin-top: 15px;">
+                    <h4 style="margin-top: 0;">This week: Mindfulness Minutes</h4>
+                    <p>Take 5 minutes each day to sit quietly and focus on your breathing.</p>
+                    <div style="background-color: white; height: 10px; border-radius: 5px; margin: 10px 0;">
+                        <div style="background-color: var(--primary); width: 40%; height: 100%; border-radius: 5px;"></div>
+                    </div>
+                    <p style="text-align: right; font-size: 0.9rem; margin: 0;">2/5 days completed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store for mood data
+        let moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+        let currentMood = null;
+        let streak = parseInt(localStorage.getItem('streak')) || 0;
+        
+        // Solutions database
+        const moodSolutions = {
+            happy: [
+                {icon: "🌟", text: "Celebrate your positive mood by sharing your happiness with someone else today."},
+                {icon: "📝", text: "Write down three things that contributed to your happiness today to remember later."},
+                {icon: "🎵", text: "Create a 'happiness playlist' with songs that amplify your good mood."}
+            ],
+            calm: [
+                {icon: "🧘‍♀️", text: "Perfect time to practice meditation or mindfulness to maintain this peaceful state."},
+                {icon: "📚", text: "Enjoy a good book or peaceful activity that matches your calm energy."},
+                {icon: "🍵", text: "Brew some herbal tea and savor the moment of tranquility."}
+            ],
+            neutral: [
+                {icon: "🌳", text: "A short walk outside might help shift your mood in a positive direction."},
+                {icon: "🎨", text: "Try a creative activity to engage your mind and potentially boost your mood."},
+                {icon: "👥", text: "Connect with a friend or family member - social interaction often improves mood."}
+            ],
+            sad: [
+                {icon: "💧", text: "It's okay to feel sad. Allow yourself to process these emotions without judgment."},
+                {icon: "📞", text: "Consider reaching out to someone you trust to talk about how you're feeling."},
+                {icon: "🌻", text: "Try a small act of self-care like taking a warm shower or preparing a nourishing meal."}
+            ],
+            angry: [
+                {icon: "🧊", text: "Try the 'ice technique': Hold an ice cube in your hand until it melts to redirect focus."},
+                {icon: "📝", text: "Write down what's making you angry, then physically crumple or tear the paper."},
+                {icon: "💪", text: "Physical exercise can help release tension - try a quick workout or even just jumping jacks."}
+            ],
+            anxious: [
+                {icon: "🌬️", text: "Practice deep breathing: Inhale for 4 counts, hold for 7, exhale for 8."},
+                {icon: "🏞️", text: "Try grounding: Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, 1 you can taste."},
+                {icon: "✏️", text: "Write down your worries to externalize them, then note which ones you can actually control."}
+            ]
+        };
+        
+        // Initialize
+        function init() {
+            // Add event listeners to mood buttons
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const mood = this.getAttribute('data-mood');
+                    selectMood(mood);
+                });
+            });
+            
+            // Add event listener to submit button
+            document.getElementById('submit-button').addEventListener('click', submitMood);
+            
+            updateHistoryTab();
+            document.getElementById('streak-count').textContent = streak;
+        }
+        
+        // Switch tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab:nth-child(${tabName === 'track' ? 1 : tabName === 'history' ? 2 : 3})`).classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+        
+        // Select mood
+        function selectMood(mood) {
+            currentMood = mood;
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                if (btn.getAttribute('data-mood') === mood) {
+                    btn.classList.add('selected');
+                    btn.style.borderColor = `var(--${mood})`;
+                }
+            });
+        }
+        
+        // Submit mood
+        function submitMood() {
+            if (!currentMood) {
+                alert("Please select a mood first!");
+                return;
+            }
+            
+            const intensity = document.getElementById('intensity-slider').value;
+            const notes = document.getElementById('mood-notes').value;
+            const date = new Date();
+            
+            const moodEntry = {
+                mood: currentMood,
+                intensity: intensity,
+                notes: notes,
+                date: date.toISOString(),
+                formattedDate: `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`
+            };
+            
+            // Add to history
+            moodHistory.unshift(moodEntry);
+            localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+            
+            // Update streak
+            updateStreak();
+            
+            // Show solutions
+            showSolutions(currentMood);
+            
+            // Update history tab
+            updateHistoryTab();
+        }
+        
+        // Show solutions based on mood
+        function showSolutions(mood) {
+            const solutionsContainer = document.getElementById('solutions-container');
+            const solutionsList = document.getElementById('solutions-list');
+            
+            solutionsList.innerHTML = '';
+            
+            // Get solutions for the selected mood
+            const solutions = moodSolutions[mood];
+            
+            solutions.forEach(solution => {
+                const solutionItem = document.createElement('div');
+                solutionItem.className = 'solution-item';
+                solutionItem.innerHTML = `
+                    <div class="solution-icon">${solution.icon}</div>
+                    <div class="solution-text">${solution.text}</div>
+                `;
+                solutionsList.appendChild(solutionItem);
+            });
+            
+            // Add a random general wellness tip
+            const generalTips = [
+                {icon: "💧", text: "Remember to stay hydrated throughout the day."},
+                {icon: "🍎", text: "Nourish your body with healthy foods to support your emotional wellbeing."},
+                {icon: "😴", text: "Aim for 7-9 hours of quality sleep tonight to help regulate emotions."},
+                {icon: "🌳", text: "Spending time in nature can improve your overall mental health."}
+            ];
+            
+            const randomTip = generalTips[Math.floor(Math.random() * generalTips.length)];
+            const generalTipItem = document.createElement('div');
+            generalTipItem.className = 'solution-item';
+            generalTipItem.style.marginTop = "20px";
+            generalTipItem.style.borderTop = "1px dashed #ddd";
+            generalTipItem.style.paddingTop = "20px";
+            generalTipItem.innerHTML = `
+                <div class="solution-icon">${randomTip.icon}</div>
+                <div class="solution-text"><strong>Wellness Tip:</strong> ${randomTip.text}</div>
+            `;
+            solutionsList.appendChild(generalTipItem);
+            
+            solutionsContainer.style.display = 'block';
+        }
+        
+        // Update streak
+        function updateStreak() {
+            // Check if last entry was yesterday
+            if (moodHistory.length > 1) {
+                const lastEntryDate = new Date(moodHistory[1].date);
+                const today = new Date();
+                
+                // Reset dates to start of day for comparison
+                lastEntryDate.setHours(0, 0, 0, 0);
+                const yesterday = new Date(today);
+                yesterday.setDate(yesterday.getDate() - 1);
+                yesterday.setHours(0, 0, 0, 0);
+                
+                // Check if last entry was yesterday or today
+                if (lastEntryDate.getTime() === yesterday.getTime() || 
+                    lastEntryDate.toDateString() === today.toDateString()) {
+                    streak += 1;
+                } else {
+                    streak = 1; // Reset streak if day was skipped
+                }
+            } else {
+                streak = 1; // First entry
+            }
+            
+            localStorage.setItem('streak', streak);
+            document.getElementById('streak-count').textContent = streak;
+        }
+        
+        // Update history tab
+        function updateHistoryTab() {
+            const historyList = document.getElementById('mood-history-list');
+            const emptyState = document.getElementById('empty-history');
+            
+            // Show/hide empty state
+            if (moodHistory.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            } else {
+                emptyState.style.display = 'none';
+            }
+            
+            // Clear current history
+            historyList.innerHTML = '';
+            
+            // Add streak display at top
+            const streakContainer = document.createElement('div');
+            streakContainer.className = 'streak-container';
+            streakContainer.innerHTML = `
+                <div class="streak-count">${streak}</div>
+                <div class="streak-label">Day Streak</div>
+            `;
+            historyList.appendChild(streakContainer);
+            
+            // Add history entries
+            moodHistory.forEach((entry, index) => {
+                const entryElement = document.createElement('div');
+                entryElement.className = 'history-entry';
+                
+                // Get emoji for mood
+                let moodEmoji;
+                switch(entry.mood) {
+                    case 'happy': moodEmoji = '😄'; break;
+                    case 'calm': moodEmoji = '😌'; break;
+                    case 'neutral': moodEmoji = '😐'; break;
+                    case 'sad': moodEmoji = '😔'; break;
+                    case 'angry': moodEmoji = '😠'; break;
+                    case 'anxious': moodEmoji = '😰'; break;
+                    default: moodEmoji = '😐';
+                }
+                
+                entryElement.innerHTML = `
+                    <div>
+                        <span style="font-size: 1.2rem; margin-right: 8px;">${moodEmoji}</span>
+                        <strong>${entry.mood.charAt(0).toUpperCase() + entry.mood.slice(1)}</strong>
+                        <span style="color: #666; margin-left: 5px;">(${entry.intensity}/5)</span>
+                        ${entry.notes ? `<p style="margin: 5px 0 0 28px; color: #555;">"${entry.notes}"</p>` : ''}
+                    </div>
+                    <div class="history-date">${entry.formattedDate}</div>
+                `;
+                
+                historyList.appendChild(entryElement);
+            });
+        }
+        
+        // Initialize on load
+        window.onload = init;
+    </script>
+</body>
+</html>
