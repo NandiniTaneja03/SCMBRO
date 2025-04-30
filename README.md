@@ -1,12 +1,8 @@
-MINDMINGLE 
 
-This is a fun Website made for all age people. Here you can check your knowledge by doing fun quizes and games.
-We have various qualities of quizes in our website.
-Whats new? 
-We Mindmingle are a platform where you can get quizes, games at a single place. fun right? 
+# MINDLEMINGLE:
+# A place where you can find everything at a once , including games and quizes
 
- This is a fun Website made for all age people. Here you can check your knowledge by doing fun quizes and games.
- We have various qualities of quizes in our website.
- Whats new? 
- We Mindmingle are a platform where you can get quizes, games at a single place. fun right? 
-
+# Our contribution: 
+## VIDHI (2410991776):- Designing and Project file
+## NANDINI TANEJA (2410991715):-HTML, CSS , JAVASCRIPT.
+## SULTAN (2410991735):- Game
