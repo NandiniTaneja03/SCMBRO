@@ -10,7 +10,7 @@ Question.prototype.isCorrectAnswer = function (choice) {
   return this.answer === choice;
 };
 
-// Quiz constructor function
+// Quiz constructor function......
 function Quiz(questions) {
   this.questions = questions;
   this.score = 0;
