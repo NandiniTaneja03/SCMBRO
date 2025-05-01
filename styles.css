@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family:italian;
 }
 
 .navbar {
@@ -13,7 +13,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 5%;
-    background-color: #ffffff;
+    background-color: #800080;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: fixed;
     width: 100%;
@@ -39,7 +39,7 @@ body {
 }
 
 .nav-links a:hover {
-    color: #007bff;
+    color: #6A0DADh;
 }
 
 .hero {
