@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz with Feedback</title>
+</head>
+<body>
+    <h1>Interactive Quiz</h1>
+
+    <!-- Quiz Section -->
+    <div id="quiz-section">
+        <h2>Quiz Question</h2>
+        <p>What is the capital of France?</p>
+        <button onclick="submitQuiz()">Paris</button>
+        <button onclick="submitQuiz()">Rome</button>
+        <button onclick="submitQuiz()">Berlin</button>
+        <button onclick="submitQuiz()">Madrid</button>
+    </div>
+
+    <!-- Feedback Section (Hidden by default) -->
+    <div id="feedback-section" style="display: none;">
+        <h2>We’d love your feedback!</h2>
+        <form id="feedbackForm" onsubmit="submitFeedback(event)">
+            <label for="rating">How would you rate the quiz?</label><br>
+            <input type="radio" name="rating" value="1"> 1
+            <input type="radio" name="rating" value="2"> 2
+            <input type="radio" name="rating" value="3"> 3
+            <input type="radio" name="rating" value="4"> 4
+            <input type="radio" name="rating" value="5"> 5<br><br>
+            
+            <label for="comments">Comments:</label><br>
+            <textarea id="comments" rows="4" cols="50"></textarea><br><br>
+            
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to handle quiz submission
+        function submitQuiz() {
+            alert("Quiz completed! Now please provide your feedback.");
+
+            // Hide the quiz section and show the feedback section
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('feedback-section').style.display = 'block';
+        }
+
+        // Function to handle feedback submission
+        function submitFeedback(event) {
+            event.preventDefault(); // Prevent form from refreshing the page
+
+            // Get feedback values
+            const rating = document.querySelector('input[name="rating"]:checked').value;
+            const comments = document.getElementById('comments').value;
+
+            // Display feedback in console (for demonstration purposes)
+            console.log("Feedback Submitted:");
+            console.log("Rating:", rating);
+            console.log("Comments:", comments);
+
+            // Show a confirmation message
+            alert("Thank you for your feedback!");
+
+            // Reset the form and hide feedback section (optional)
+            document.getElementById('feedbackForm').reset();
+            document.getElementById('feedback-section').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
